@@ -23,10 +23,8 @@ export default function Modal({ animateClasses = [] }) {
       close()
     }
   }
-
-  return  {
+  return {
     open,
     close
   }
-
 }
