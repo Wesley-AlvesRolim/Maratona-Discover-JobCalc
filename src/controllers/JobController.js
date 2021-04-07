@@ -3,19 +3,6 @@ const jobUtils = require('../Utils/jobUtils');
 const ProfileData = require('../Model/Profile');
 
 module.exports = {
-    index(request, response) {
-        const updatesJobs = JobData.get().map(jobElement => {
-            const remaining = jobUtils.remainingDay(jobElement)
-            const status = remaining <= 0 ? 'done' : 'progress'
-            return {
-                ...jobElement,
-                remaining,
-                status,
-                budget: jobUtils.calculateBudget(jobElement, ProfileData.get()["value-hour"])
-            };
-        });
-        return response.render(`index`, { jobs: updatesJobs, ProfileData: ProfileData.get() });
-    },
     save(request, response) {
         const JobDataCaught = JobData.get();
         const id = JobDataCaught[JobDataCaught.length - 1].id + 1 || 1;
@@ -26,19 +13,19 @@ module.exports = {
             "total-hours": request.body["total-hours"],
             createdAt: Date.now(),
         };
-        JobDataCaught.push(valuesInInputs);
+        JobData.create(valuesInInputs);
         return response.redirect("/");
     },
     create(request, response) {
         return response.render(`job`);
     },
-    show(request, response) {
+    async show(request, response) {
         const jobId = request.params.id;
         const jobWanted = JobData.get().find(job => Number(job.id) === Number(jobId));
         if (!jobWanted) {
             return response.send('Job not found!');
         }
-        jobWanted.budget = jobUtils.calculateBudget(jobWanted, ProfileData.get()["value-hour"])
+        jobWanted.budget = jobUtils.calculateBudget(jobWanted,  await ProfileData.get()["value-hour"])
         return response.render(`job-edit`, { jobInHtml: jobWanted });
     },
     update(request, response) {
@@ -60,12 +47,12 @@ module.exports = {
                         job = updatedJob
                     }
                     return job
-        }));
+                }));
         return response.redirect(`/job/${jobId}`)
     },
     delete(request, response) {
         const jobId = request.params.id;
-        JobData.update(JobData.get().filter(job => Number(job.id) !== Number(jobId)));
+        JobData.delete(jobId);
         return response.redirect('/');
     }
 }
