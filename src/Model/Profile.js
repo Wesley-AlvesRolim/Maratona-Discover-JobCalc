@@ -15,7 +15,17 @@ module.exports = {
             "value-hour": data.value_hour
         };
     },
-    update(object) {
-        data = object;
+    async update(object) {
+        const db = await DataBase();
+        db.run(`UPDATE profile SET
+            name = "${object.name}",
+            avatar = "${object.avatar}",
+            monthly_budget = ${object["monthly-budget"]},
+            days_per_week = ${object["days-per-week"]},
+            hours_per_day = ${object["hours-per-day"]},
+            vacation_per_year = ${object["vacation-per-year"]},
+            value_hour = ${object["value-hour"]}
+        `);
+        await db.close();
     }
 }
