@@ -16,6 +16,12 @@ module.exports = {
                 budget: jobUtils.calculateBudget(job, profile["value-hour"]),
             };
         });
-        return response.render("index", { jobs: updatedJobs, ProfileData: profile });
+        const jobsDoneNumber = updatedJobs.reduce((doneNumber, job) => {
+            if (job.remaining <= 0) {
+                doneNumber++
+            }
+            return doneNumber
+        }, 0)
+        return response.render("index", { jobs: updatedJobs, ProfileData: profile, jobsDoneNumber });
     },
 };
