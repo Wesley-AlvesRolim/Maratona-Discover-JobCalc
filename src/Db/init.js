@@ -11,6 +11,7 @@ const initDb = {
                 days_per_week INT,
                 hours_per_day INT,
                 vacation_per_year INT,
+                daily_sleep INT,
                 value_hour INT
             )
         `);
