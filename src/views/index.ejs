@@ -31,7 +31,7 @@
                 <img id="logo" src="/images/logo.svg" alt="Logo" />
                 <span id="notification">
                     <img src="/images/alert-octagon.svg" alt="Alerta" />
-                    Você tem 2 horas livres no seu dia
+                    Você tem <%= utils.freeTime %>  horas livres no seu dia
                 </span>
                 <a href="/profile" id="avatar-profile">
                     <p>
@@ -47,13 +47,13 @@
 
                 <div class="info">
                     <div class="total">
-                        <strong><%= jobs.length %> </strong> Projetos ao total
+                        <strong><%= jobs.length %> </strong> <%= jobs.length > 1 ? 'Projetos' : 'Projeto' %> ao total
                     </div>
                     <div class="in-progress">
-                        <strong><%= jobs.length - jobsDoneNumber %> </strong> Em andamento
+                        <strong><%= jobs.length - utils.jobsDoneNumber %> </strong> Em andamento
                     </div>
                     <div class="finished">
-                        <strong><%= jobsDoneNumber %> </strong> Encerrados
+                        <strong><%= utils.jobsDoneNumber %> </strong> <%= utils.jobsDoneNumber > 1 ? 'Encerrados' : 'Encerrado'%> 
                     </div>
                 </div>
                 <a class="button orange" href="/job">
