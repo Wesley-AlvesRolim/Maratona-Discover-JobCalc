@@ -12,6 +12,7 @@ module.exports = {
             "days-per-week": data.days_per_week,
             "hours-per-day": data.hours_per_day,
             "vacation-per-year": data.vacation_per_year,
+            "daily-sleep": data.daily_sleep,
             "value-hour": data.value_hour
         };
     },
@@ -24,6 +25,7 @@ module.exports = {
             days_per_week = ${object["days-per-week"]},
             hours_per_day = ${object["hours-per-day"]},
             vacation_per_year = ${object["vacation-per-year"]},
+            daily_sleep = ${object["daily-sleep"]},
             value_hour = ${object["value-hour"]}
         `);
         await db.close();
