@@ -20,8 +20,15 @@ module.exports = {
             if (job.remaining <= 0) {
                 doneNumber++
             }
-            return doneNumber
-        }, 0)
-        return response.render("index", { jobs: updatedJobs, ProfileData: profile, jobsDoneNumber });
+            return doneNumber;
+        }, 0);
+        const dailyHoursSum = updatedJobs.reduce((element, obj) => {
+            if (obj.status === 'progress') {
+                return element += obj['daily-hours'];
+            };
+            return element;
+        },0)
+        const freeTime = 24 - (dailyHoursSum + profile['daily-sleep']);
+        return response.render("index", { jobs: updatedJobs, ProfileData: profile, utils: {jobsDoneNumber, freeTime} });
     },
 };
